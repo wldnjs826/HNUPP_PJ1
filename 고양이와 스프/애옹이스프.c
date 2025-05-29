@@ -7,6 +7,10 @@
 #define HME_POS 1
 #define BWL_POS (ROOM_WIDTH - 2)
 
+int random(int a, int b) {
+	return rand() % a + b;
+}
+
 
 int cat = 1;
 
@@ -21,11 +25,39 @@ int main(void) {
 	Sleep(1000); system("cls");
 
 
+
+	int match = 2;
+	int Move;
+	int Soup = 0;
+	int catback;
+	int Choice;
+	int CP = 0;
+	int Feelings = 3;
+	int S;
+	int T;
+	int Tset = 0;
+	int Sset = 0;
+
 	//인트로
-	int match=2,Move,Soup=0,catback, Choice;
 	while (1) {
 		printf("==================== 현재 상태 ===================\n");
 		printf("현재까지 만든 수프: %d개\n", Soup);
+		printf("CP: %d 포인트\n", CP);
+		printf("%s 기분(0~3): %d\n", name, Feelings);
+		switch (Feelings) {
+		default:
+			printf("기분이 매우 나쁩니다.\n");
+			break;
+		case 1:
+			printf("심심해합니다.\n");
+			break;
+		case 2:
+			printf("식빵을 굽습니다.\n");
+			break;
+		case 3:
+			printf("골골송을 부릅니다.\n");
+			break;
+		}
 		printf("집사와의 관계(0~4): %d\n", match);
 		switch (match) {
 		case 4:
@@ -48,15 +80,28 @@ int main(void) {
 		Sleep(500);
 
 		catback = cat;
+
+		//기분 나빠짐
+		int Dice2 = random(6, 1);
+		printf("6-%d: 주사위 눈이 %d이하이면 그냥 기분이 나빠집니다. 고양이니까?\n",match,6-match);
+		printf("주사위를 굴립니다. 또르륵...\n");
+		printf("%d이(가) 나왔습니다.\n",Dice2);
+		if (Dice2 <= 6 - match) {
+			int feel2= Feelings;
+			Feelings--;
+			printf("%s의 기분이 나빠집니다: %d->%d\n", name, feel2, Feelings);
+		}
+
+
 		
-		//이동
-		printf("쫀떡 이동: 집사와 친밀할 수록 냄비쪽으로 갈 학률이 높아집니다.\n");
+		//ver1 이동
+		/*printf("쫀떡 이동: 집사와 친밀할 수록 냄비쪽으로 갈 학률이 높아집니다.\n");
 		Sleep(500);
 		printf("주사위 눈이 %d 이상이면 냄비 쪽으로 이동합니다.\n", 6-match);
 		Sleep(500);
 		printf("주사위를 굴립니다. 또르륵...\n");
 		Sleep(500);
-		int Dice = rand() % 6 + 1;
+		int Dice = random(6,1);
 		printf("%d이(가) 나왔습니다.!\n", Dice);
 		Sleep(500);
 		if (Dice >= 6 - match) {
@@ -84,11 +129,56 @@ int main(void) {
 				}
 			}
 
+		}*/
+
+		//ver2 이동
+		if (Feelings == 0) {
+			if (catback == HME_POS) {
+				printf("%s은(는) 자신의 집에서 편안함을 느낍니다.\n", name);
+				Feelings++; //직전의 위치를 생각해봐라 .의 위치
+			}
+			else {
+				printf("기분이 나쁜 %s은(는) 집으로 향합니다.\n");
+				cat--;
+			}
 		}
+		else if (Feelings == 1) {
+			if (abs(cat - T) > abs(cat - S)) {
+				printf("%s은(는) 심심해서 캣타워 쪽으로 이동합니다.\n", name);
+				printf("%s은(는) 캣타워를 뛰어다닙다.\n", name);
+				printf("기분이 제법 좋아졌습니다.\n");
+				Feelings+2	;
+			}
+			else if (abs(cat - S) > abs(cat - T)) {
+				printf("%s은(는) 심심해서 스크래쳐 쪽으로 이동합니다.\n", name);
+				printf("%s은(는) 스크래쳐를 긁고 놀았습니다.\n", name);
+				printf("기분이 조금 좋아졌습니다.\n");
+				Feelings++;
+			}
+			else {
+				printf("놀거리가 없어서 기분이 매우 나빠집니다.\n", name);
+				Feelings--;
+			}
+		}
+		else if (Feelings == 2) {
+			printf("%s은(는) 기분좋게 식빵을 굽고 있습니다.\n");
+		}
+		else {
+			if (cat == BWL_POS) {
+				printf("움직이지 않았습니다.\n");
+			}
+			else {
+				printf("%s은(는) 골골송을 부르며 수프를 만들러 갑니다.\n", name);
+				cat++;
+			}
+	
+		}
+ 
+
 			
 		// 수프
 		if (cat == BWL_POS) {
-			int gacha = rand() % 2;
+			int gacha = random(2,0);
 			switch (gacha) {
 				case 2: 
 					printf("%s이(가) 감자수프를 만들었습니다!\n", name);
@@ -138,11 +228,33 @@ int main(void) {
 		printf("\n");
 
 		//선택
-		printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음 1. 긁어 주기\n");
-		do {
-			printf(">> ");
-			scanf_s("%d", &Choice);
-		} while (Choice != 0 && Choice != 1);
+		if (Tset == 1) {
+			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기");
+			do {
+				printf(">> ");
+				scanf_s("%d", &Choice);
+			} while (Choice != 0 && Choice != 1 && Choice != 2);
+		}
+		else if (Sset == 1) {
+			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기");
+			do {
+				printf(">> ");
+				scanf_s("%d", &Choice);
+			} while (Choice != 0 && Choice != 1 && Choice != 2);
+		}
+		else if (Tset == 1 && Sset == 1) {
+			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기");			do {
+				printf(">> ");
+				scanf_s("%d", &Choice);
+			} while (Choice != 0 && Choice != 1 && Choice != 2 && Choice != 3);	
+		}
+		else {
+			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n");
+			do {
+				printf(">> ");
+				scanf_s("%d", &Choice);
+			} while (Choice != 0 && Choice != 1);
+		}
 
 			//아무것도 안하기
 			if (Choice == 0) {
@@ -152,7 +264,7 @@ int main(void) {
 				Sleep(500);
 				printf("주사위를 굴립니다. 또르륵...\n");
 				Sleep(500);
-				int Dice = rand() % 6 + 1;
+				int Dice = random(6,1);
 				printf("%d이(가) 나왔습니다.!\n", Dice);
 				Sleep(500);
 				if (Dice <= 4) {
@@ -182,7 +294,7 @@ int main(void) {
 				Sleep(500);
 				printf("주사위를 굴립니다. 또르륵...\n");
 				Sleep(500);
-				int Dice = rand() % 6 + 1;
+				int Dice = random(6,1);
 				printf("%d이(가) 나왔습니다.!\n", Dice);
 				Sleep(500);
 				if (Dice > 4) {

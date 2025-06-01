@@ -11,6 +11,9 @@ int random(int a, int b) {
 	return rand() % a + b;
 }
 
+void sp() {
+	Sleep(500);
+}
 
 int cat = 1;
 
@@ -138,7 +141,7 @@ int main(void) {
 				Feelings++; //직전의 위치를 생각해봐라 .의 위치
 			}
 			else {
-				printf("기분이 나쁜 %s은(는) 집으로 향합니다.\n");
+				printf("기분이 나쁜 %s은(는) 집으로 향합니다.\n", name);
 				cat--;
 			}
 		}
@@ -147,7 +150,7 @@ int main(void) {
 				printf("%s은(는) 심심해서 캣타워 쪽으로 이동합니다.\n", name);
 				printf("%s은(는) 캣타워를 뛰어다닙다.\n", name);
 				printf("기분이 제법 좋아졌습니다.\n");
-				Feelings+2	;
+				Feelings + 2;
 			}
 			else if (abs(cat - S) > abs(cat - T)) {
 				printf("%s은(는) 심심해서 스크래쳐 쪽으로 이동합니다.\n", name);
@@ -156,12 +159,12 @@ int main(void) {
 				Feelings++;
 			}
 			else {
-				printf("놀거리가 없어서 기분이 매우 나빠집니다.\n", name);
+				printf("놀거리가 없어서 기분이 매우 나빠집니다.\n");
 				Feelings--;
 			}
 		}
 		else if (Feelings == 2) {
-			printf("%s은(는) 기분좋게 식빵을 굽고 있습니다.\n");
+			printf("%s은(는) 기분좋게 식빵을 굽고 있습니다.\n",name);
 		}
 		else {
 			if (cat == BWL_POS) {
@@ -229,27 +232,27 @@ int main(void) {
 
 		//선택
 		if (Tset == 1) {
-			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기");
+			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
 			} while (Choice != 0 && Choice != 1 && Choice != 2);
 		}
 		else if (Sset == 1) {
-			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기");
+			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
 			} while (Choice != 0 && Choice != 1 && Choice != 2);
 		}
 		else if (Tset == 1 && Sset == 1) {
-			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기");			do {
+			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기\n");			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
 			} while (Choice != 0 && Choice != 1 && Choice != 2 && Choice != 3);	
 		}
 		else {
-			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n");
+			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
@@ -260,16 +263,18 @@ int main(void) {
 			if (Choice == 0) {
 				printf("아무것도 하지 않습니다.\n");
 				Sleep(500);
-				printf("4/6의 확률로 친밀도가 떨어집니다.\n");
+				int feel2 = Feelings;
+				Feelings--;
+				printf("%s의 기분이 나빠졌습니다:%d -> %d.\n",name,feel2,Feelings);
 				Sleep(500);
 				printf("주사위를 굴립니다. 또르륵...\n");
 				Sleep(500);
 				int Dice = random(6,1);
 				printf("%d이(가) 나왔습니다.!\n", Dice);
 				Sleep(500);
-				if (Dice <= 4) {
+				if (Dice <= 5) {
 					if (match > 0) {
-						printf("친밀도가 떨어집니다.\n");
+						printf("집사와의 관계가 나빠집니다.\n");
 						match--;
 						Sleep(500);
 					}
@@ -290,11 +295,38 @@ int main(void) {
 
 				printf("%s의 턱을 긁어주었습니다.\n", name);
 				Sleep(500);
-				printf("2/6의 확률로 친밀도가 높아집니다.\n");
+				printf("%s의 기분은 그대로입니다: %d\n",name,Feelings);
 				Sleep(500);
 				printf("주사위를 굴립니다. 또르륵...\n");
 				Sleep(500);
 				int Dice = random(6,1);
+				printf("%d이(가) 나왔습니다.!\n", Dice);
+				Sleep(500);
+				if (Dice > 5) {
+					if (match < 4) {
+						printf("친밀도가 높아집니다.\n");
+						match++;
+						Sleep(500);
+					}
+					else {
+						printf("친밀도는 최대치입니다.\n");
+						Sleep(500);
+					}
+				}
+				else {
+					printf("친밀도는 그대로입니다.\n");
+					Sleep(500);
+				}
+				printf("현재 친밀도: %d\n", match);
+			}
+			else if (Choice == 2) { //장난감 쥐로 놀아주기
+				int feel2 = Feelings;
+				Feelings++;
+				printf("장난감 쥐로 %s와 놀아 주었습니다. %s의 기분이 좋아졌습니다:%d -> %d.\n",name,name, feel2, Feelings);
+				Sleep(500);
+				printf("주사위를 굴립니다. 또르륵...\n");
+				Sleep(500);
+				int Dice = random(6, 1);
 				printf("%d이(가) 나왔습니다.!\n", Dice);
 				Sleep(500);
 				if (Dice > 4) {
@@ -313,6 +345,7 @@ int main(void) {
 					Sleep(500);
 				}
 				printf("현재 친밀도: %d\n", match);
+
 			}
 
 		Sleep(2500);

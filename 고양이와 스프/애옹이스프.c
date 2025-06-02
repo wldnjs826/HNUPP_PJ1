@@ -6,6 +6,7 @@
 #define ROOM_WIDTH 10
 #define HME_POS 1
 #define BWL_POS (ROOM_WIDTH - 2)
+#define MAX(a, b) ((a) >= (b) ? (a) : (b))
 
 int random(int a, int b) {
 	return rand() % a + b;
@@ -36,8 +37,8 @@ int main(void) {
 	int Choice;
 	int CP = 0;
 	int Feelings = 3;
-	int S;
-	int T;
+	int S = random(BWL_POS, HME_POS);
+	int T = random(BWL_POS, HME_POS);
 	int Tset = 0;
 	int Sset = 0;
 
@@ -220,6 +221,12 @@ int main(void) {
 				else if (i == 2 && j == cat) {
 					printf("C");
 				}
+				else if (Tset == 1 && i == T && j == 1) {
+					printf("T");
+				}
+				else if (Sset == 1 && i == S && j == 1) {
+					printf("S");
+				}
 				else {
 					printf(" ");
 				}
@@ -264,8 +271,14 @@ int main(void) {
 				printf("아무것도 하지 않습니다.\n");
 				Sleep(500);
 				int feel2 = Feelings;
-				Feelings--;
-				printf("%s의 기분이 나빠졌습니다:%d -> %d.\n",name,feel2,Feelings);
+				if (Feelings == 0) {
+					printf("기분이 너무 좋지 않습니다.\n");
+					printf("이미 최하치 입니다.\n");
+				}
+				else {
+					Feelings--;
+					printf("%s의 기분이 나빠졌습니다:%d -> %d.\n", name, feel2, Feelings);
+				}
 				Sleep(500);
 				printf("주사위를 굴립니다. 또르륵...\n");
 				Sleep(500);
@@ -302,7 +315,7 @@ int main(void) {
 				int Dice = random(6,1);
 				printf("%d이(가) 나왔습니다.!\n", Dice);
 				Sleep(500);
-				if (Dice > 5) {
+				if (Dice >= 5) {
 					if (match < 4) {
 						printf("친밀도가 높아집니다.\n");
 						match++;
@@ -320,16 +333,21 @@ int main(void) {
 				printf("현재 친밀도: %d\n", match);
 			}
 			else if (Choice == 2) { //장난감 쥐로 놀아주기
-				int feel2 = Feelings;
-				Feelings++;
-				printf("장난감 쥐로 %s와 놀아 주었습니다. %s의 기분이 좋아졌습니다:%d -> %d.\n",name,name, feel2, Feelings);
+				if (Feelings == 3) {
+					printf("기분이 이미 최고조입니다.\n");
+				}
+				else {
+					int feel2 = Feelings;
+					Feelings++;
+					printf("장난감 쥐로 %s와 놀아 주었습니다. %s의 기분이 좋아졌습니다:%d -> %d.\n", name, name, feel2, Feelings);
+				}
 				Sleep(500);
 				printf("주사위를 굴립니다. 또르륵...\n");
 				Sleep(500);
 				int Dice = random(6, 1);
 				printf("%d이(가) 나왔습니다.!\n", Dice);
 				Sleep(500);
-				if (Dice > 4) {
+				if (Dice >= 4) {
 					if (match < 4) {
 						printf("친밀도가 높아집니다.\n");
 						match++;
@@ -347,6 +365,57 @@ int main(void) {
 				printf("현재 친밀도: %d\n", match);
 
 			}
+			else if (Choice == 3) { //레이퍼 포인트로 놀아주기
+				if (Feelings == 1) {
+					int feel2 = Feelings;
+					Feelings + 2;
+					printf("레이저 포인트로 %s와 신나게 놀아 주었습니다. %s의 기분이 꽤 좋아졌습니다:%d -> %d.\n", name, name, feel2, Feelings);
+				}
+				else if (Feelings == 2) {
+					int feel2 = Feelings;
+					Feelings ++;
+					printf("레이저 포인트로 %s와 신나게 놀아 주었습니다. %s의 기분이 꽤 좋아졌습니다:%d -> %d.\n", name, name, feel2, Feelings);
+				}
+				else {
+					printf("기분이 이미 최고조입니다.\n");
+				}
+				Sleep(500);
+				printf("주사위를 굴립니다. 또르륵...\n");
+				Sleep(500);
+				int Dice = random(6, 1);
+				printf("%d이(가) 나왔습니다.!\n", Dice);
+				Sleep(500);
+				if (Dice >= 2 ) {
+					if (match < 4) {
+						printf("친밀도가 높아집니다.\n");
+						match++;
+						Sleep(500);
+					}
+					else {
+						printf("친밀도는 최대치입니다.\n");
+						Sleep(500);
+					}
+				}
+				else {
+					printf("친밀도는 그대로입니다.\n");
+					Sleep(500);
+				}
+				printf("현재 친밀도: %d\n", match);
+
+			}
+
+			//CP 생산
+			printf("%s 기분(0~3): %d\n", name, Feelings);
+			printf("집사와의 친밀도(0~4): %d\n", match);
+			CP =+ MAX(0, Feelings - 1) + match;
+			printf("%s의 기분과 친밀도에 따라서 CP가 %d 포인트 생산되었습니다.\n", name, MAX(0,Feelings-1)+match);
+			printf("보유 CP: %d 포인트\n", CP);
+
+			do{
+
+			} while ();
+
+
 
 		Sleep(2500);
 		system("cls");

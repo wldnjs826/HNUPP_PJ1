@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define ROOM_WIDTH 10
+#define ROOM_WIDTH 15
 #define HME_POS 1
 #define BWL_POS (ROOM_WIDTH - 2)
 #define MAX(a, b) ((a) >= (b) ? (a) : (b))
@@ -239,27 +239,27 @@ int main(void) {
 
 		//선택
 		if (Tset == 1) {
-			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n");
+			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
 			} while (Choice != 0 && Choice != 1 && Choice != 2);
 		}
 		else if (Sset == 1) {
-			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n");
+			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
 			} while (Choice != 0 && Choice != 1 && Choice != 2);
 		}
 		else if (Tset == 1 && Sset == 1) {
-			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기\n");			do {
+			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기\n");			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
 			} while (Choice != 0 && Choice != 1 && Choice != 2 && Choice != 3);	
 		}
 		else {
-			printf("어떤 상호작용을 하시겠습니까? 0. 아무것도 하지 않음\n1. 긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기\n");
+			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
@@ -416,24 +416,66 @@ int main(void) {
 			int Lset=0;
 			int price[5] = { 0, 1, 2, 4, 6 };
 
-			printf("상점에서 물건을 살 수 있습니다.\n");
-			printf("어떤 물건을 구매할까요?\n");	
-			if (Tset == 0 && Sset == 0 && Mset == 0 && Lset == 0) {
-				printf("0. 아무 것도 사지 않는다.\n1. 장난감 쥐 : 1 CP\n2. 레이저 포인터 : 2 CP\n3. 스크래처 : 4 CP\n4. 캣 타워 : 6 CP\n");
-				do {
-					printf(">> ");
-					scanf_s("%d", &buy);
-					if (buy == 0) {
-						break;
-					}
-				} while (buy != 0 && buy != 1 && buy != 2 && buy != 3 && buy != 4);
+
+			// CP상점
+			printf("\n상점에서 물건을 살 수 있습니다.\n");
+			printf("어떤 물건을 구매할까요?\n");
+			printf("0. 아무 것도 사지 않는다.\n");
+			printf("1. 장난감 쥐: 1 CP%s\n", Mset ? " (품절)" : "");
+			printf("2. 레이저 포인터: 2 CP%s\n", Lset ? " (품절)" : "");
+			printf("3. 스크래처: 4 CP%s\n", Sset ? " (품절)" : "");
+			printf("4. 캣 타워: 6 CP%s\n", Tset ? " (품절)" : "");
+
+			do {
+				printf(">> ");
+				scanf_s("%d", &buy);
+			} while (buy < 0 || buy > 4);
+
+			if (buy == 1 && !Mset) {
+				if (CP >= 1) {
+					CP--;
+					Mset = 1;
+					printf("장난감 쥐를 구매했습니다. 보유 CP %d 포인트\n", CP);
+				}
+				else printf("CP가 부족합니다.\n");
+			}
+			else if (buy == 2 && !Lset) {
+				if (CP >= 2) {
+					CP -= 2;
+					Lset = 1;
+					printf("레이저 포인터를 구매했습니다. 보유 CP %d 포인트\n", CP);
+				}
+				else printf("CP가 부족합니다.\n");
+			}
+			else if (buy == 3 && !Sset) {
+				if (CP >= 4) {
+					do { S = random(ROOM_WIDTH - 2, 1); } while (S == HME_POS || S == BWL_POS || S == T);
+					Sset = 1;
+					CP -= 4;
+					printf("스크래처를 구매했습니다. 보유 CP %d 포인트\n", CP);
+				}
+				else printf("CP가 부족합니다.\n");
+			}
+			else if (buy == 4 && !Tset) {
+				if (CP >= 6) {
+					do { T = random(ROOM_WIDTH - 2, 1); } while (T == HME_POS || T == BWL_POS || T == S);
+					Tset = 1;
+					CP -= 6;
+					printf("캣 타워를 구매했습니다. 보유 CP %d 포인트\n", CP);
+				}
+				else printf("CP가 부족합니다.\n");
+			}
+			else if (Choice != 0) {
+				printf("이미 구매한 물건입니다.\n");
+			}
+
+
+			//돌발 퀘스트
+			int turn = 1;
+			if (turn % 3 == 0) {
 				
-				break;
 			}
-			else if (Tset == 0 && Sset == 0 && Mset == 0 && Lset == 0) {
-
-			}
-
+			turn++;
 
 
 		Sleep(2500);

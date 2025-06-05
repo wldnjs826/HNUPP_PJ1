@@ -263,7 +263,7 @@ int main(void) {
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
-			} while (Choice != 0 && Choice != 1);
+			} while (Choice != 0 && Choice != 1 && Choice != 2 && Choice != 3);
 		}
 
 			//아무것도 안하기
@@ -411,9 +411,28 @@ int main(void) {
 			printf("%s의 기분과 친밀도에 따라서 CP가 %d 포인트 생산되었습니다.\n", name, MAX(0,Feelings-1)+match);
 			printf("보유 CP: %d 포인트\n", CP);
 
-			do{
+			int buy;
+			int Mset=0;
+			int Lset=0;
+			int price[5] = { 0, 1, 2, 4, 6 };
 
-			} while ();
+			printf("상점에서 물건을 살 수 있습니다.\n");
+			printf("어떤 물건을 구매할까요?\n");	
+			if (Tset == 0 && Sset == 0 && Mset == 0 && Lset == 0) {
+				printf("0. 아무 것도 사지 않는다.\n1. 장난감 쥐 : 1 CP\n2. 레이저 포인터 : 2 CP\n3. 스크래처 : 4 CP\n4. 캣 타워 : 6 CP\n");
+				do {
+					printf(">> ");
+					scanf_s("%d", &buy);
+					if (buy == 0) {
+						break;
+					}
+				} while (buy != 0 && buy != 1 && buy != 2 && buy != 3 && buy != 4);
+				
+				break;
+			}
+			else if (Tset == 0 && Sset == 0 && Mset == 0 && Lset == 0) {
+
+			}
 
 
 

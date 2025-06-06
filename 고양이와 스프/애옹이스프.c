@@ -37,8 +37,8 @@ int main(void) {
 	int Choice;
 	int CP = 0;
 	int Feelings = 3;
-	int S = random(BWL_POS, HME_POS);
-	int T = random(BWL_POS, HME_POS);
+	int S = random(BWL_POS - 1, HME_POS + 1);
+	int T = random(BWL_POS - 1, HME_POS + 1);
 	int Tset = 0;
 	int Sset = 0;
 	int buy;
@@ -207,7 +207,7 @@ int main(void) {
 			printf("%s은(는) 기분좋게 식빵을 굽고 있습니다.\n",name);
 		}
 		else {
-			if (cat == BWL_POS) {
+			if (cat >= BWL_POS) {
 				printf("움직이지 않았습니다.\n");
 			}
 			else {
@@ -217,7 +217,17 @@ int main(void) {
 	
 		}
  
-
+		//아이템 배치되었을 때 작을때, 클때 같은 위치 확인.
+		if (cat == T && Tset==1) {
+			printf("%s은(는) 캣타워를 뛰어다닙다.\n", name);
+			printf("기분이 제법 좋아졌습니다.\n");
+			Feelings + 2;
+		}
+		else if (cat == S && Sset==1) {
+			printf("%s은(는) 스크래쳐를 긁고 놀았습니다.\n", name);
+			printf("기분이 조금 좋아졌습니다.\n");
+			Feelings++;
+		}
 			
 		// 수프
 		if (cat == BWL_POS) {
@@ -238,7 +248,7 @@ int main(void) {
 			printf("현재까지 만든 스프: %d개\n", Soup);
 			Sleep(500);
 		}
-
+			
 		// i 세로 / j 가로
 		printf("\n");
 		for (int i = 0; i < 4; i++)		{
@@ -483,7 +493,6 @@ int main(void) {
 			}
 			else if (buy == 3 && !Sset) {
 				if (CP >= 4) {
-					do { S = random(ROOM_WIDTH - 2, 1); } while (S == HME_POS || S == BWL_POS || S == T);
 					Sset = 1;
 					CP -= 4;
 					printf("스크래처를 구매했습니다. 보유 CP %d 포인트\n", CP);
@@ -492,7 +501,6 @@ int main(void) {
 			}
 			else if (buy == 4 && !Tset) {
 				if (CP >= 6) {
-					do { T = random(ROOM_WIDTH - 2, 1); } while (T == HME_POS || T == BWL_POS || T == S);
 					Tset = 1;
 					CP -= 6;
 					printf("캣 타워를 구매했습니다. 보유 CP %d 포인트\n", CP);

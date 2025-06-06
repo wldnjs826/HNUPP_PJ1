@@ -95,9 +95,15 @@ int main(void) {
 		printf("주사위를 굴립니다. 또르륵...\n");
 		printf("%d이(가) 나왔습니다.\n",Dice2);
 		if (Dice2 <= 6 - match) {
-			int feel2= Feelings;
-			Feelings--;
-			printf("%s의 기분이 나빠집니다: %d->%d\n", name, feel2, Feelings);
+			int feel2 = Feelings;
+			if (Feelings <= 0) {
+				printf("더이상 기분이 나빠지지 않습니다.: ");
+			}
+			else {
+				Feelings--;
+				printf("%s의 기분이 나빠집니다: ", name);
+			}
+			printf("%d->%d\n", feel2, Feelings);
 		}
 
 
@@ -141,9 +147,11 @@ int main(void) {
 
 		//ver2 이동
 		if (Feelings == 0) {
-			if (catback == HME_POS) {
+			if (catback == HME_POS) {	
 				printf("%s은(는) 자신의 집에서 편안함을 느낍니다.\n", name);
-				Feelings++; //직전의 위치를 생각해봐라 .의 위치
+				if (Feelings < 3) { 
+					Feelings++;
+				} //직전의 위치를 생각해봐라 .의 위치
 			}
 			else {
 				printf("기분이 나쁜 %s은(는) 집으로 향합니다.\n", name);
@@ -186,7 +194,9 @@ int main(void) {
 			//아이템이 배치되지 않은 경우
 			else {
 				printf("놀거리가 없어서 기분이 매우 나빠집니다.\n");
-				Feelings--;
+				if (Feelings > 0) {
+					Feelings--;
+				}
 			}
 			
 			//아이템 배치되었을 때 작을때, 클때 같은 위치 확인.
@@ -220,13 +230,28 @@ int main(void) {
 		//아이템 배치되었을 때 작을때, 클때 같은 위치 확인.
 		if (cat == T && Tset==1) {
 			printf("%s은(는) 캣타워를 뛰어다닙다.\n", name);
-			printf("기분이 제법 좋아졌습니다.\n");
-			Feelings + 2;
+			if (Feelings == 2) {
+				printf("기분이 제법 좋아졌습니다.\n");
+				Feelings++;
+			}
+			else if (Feelings == 3) {
+				printf("기분이 최고조입니다.");
+			}
+			else {
+				printf("기분이 제법 좋아졌습니다.\n");
+				Feelings + 2;
+			}
 		}
 		else if (cat == S && Sset==1) {
 			printf("%s은(는) 스크래쳐를 긁고 놀았습니다.\n", name);
-			printf("기분이 조금 좋아졌습니다.\n");
-			Feelings++;
+			if (Feelings == 3) {
+				printf("기분이 최고조입니다.");
+			}
+			else {
+				printf("기분이 조금 좋아졌습니다.\n");
+				Feelings++;
+			}
+
 		}
 			
 		// 수프
@@ -270,10 +295,10 @@ int main(void) {
 				else if (i == 2 && j == cat) {
 					printf("C");
 				}
-				else if (Tset == 1 && i == T && j == 1) {
+				else if (Tset == 1 && i == 1 && j == T) {
 					printf("T");
 				}
-				else if (Sset == 1 && i == S && j == 1) {
+				else if (Sset == 1 && i == 1 && j == S) {
 					printf("S");
 				}
 				else {
@@ -474,8 +499,11 @@ int main(void) {
 				printf(">> ");
 				scanf_s("%d", &buy);
 			} while (buy < 0 || buy > 4);
-
-			if (buy == 1 && !Mset) {
+			
+			if (buy == 0) {
+				printf("아무것도 구매하지 않았습니다.");
+			}
+			else if (buy == 1 && !Mset) {
 				if (CP >= 1) {
 					CP--;
 					Mset = 1;
@@ -496,6 +524,14 @@ int main(void) {
 					Sset = 1;
 					CP -= 4;
 					printf("스크래처를 구매했습니다. 보유 CP %d 포인트\n", CP);
+					while (1) {
+						if (S == T) {
+							int S = random(BWL_POS - 1, HME_POS + 1);
+						}
+						else {
+							break;
+						}
+					}
 				}
 				else printf("CP가 부족합니다.\n");
 			}
@@ -504,10 +540,18 @@ int main(void) {
 					Tset = 1;
 					CP -= 6;
 					printf("캣 타워를 구매했습니다. 보유 CP %d 포인트\n", CP);
+					while (1) {
+						if (S == T) {
+							int T = random(BWL_POS - 1, HME_POS + 1);
+						}
+						else {
+							break;
+						}
+					}
 				}
 				else printf("CP가 부족합니다.\n");
 			}
-			else if (Choice != 0) {
+			else if (Tset == 1 || Sset == 1 || Mset == 1 || Lset == 1) {
 				printf("이미 구매한 물건입니다.\n");
 			}
 

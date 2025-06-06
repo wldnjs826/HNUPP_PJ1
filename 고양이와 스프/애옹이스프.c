@@ -41,6 +41,10 @@ int main(void) {
 	int T = random(BWL_POS, HME_POS);
 	int Tset = 0;
 	int Sset = 0;
+	int buy;
+	int Mset = 0;
+	int Lset = 0;
+	int price[5] = { 0, 1, 2, 4, 6 };
 
 	//인트로
 	while (1) {
@@ -147,6 +151,11 @@ int main(void) {
 			}
 		}
 		else if (Feelings == 1) {
+
+			//일단 아이템이 배치된거 확인
+
+			
+			//아이템 배치되었을 때 작을때, 클때 같은 위치 확인.
 			if (abs(cat - T) > abs(cat - S)) {
 				printf("%s은(는) 심심해서 캣타워 쪽으로 이동합니다.\n", name);
 				printf("%s은(는) 캣타워를 뛰어다닙다.\n", name);
@@ -238,14 +247,14 @@ int main(void) {
 		printf("\n");
 
 		//선택
-		if (Tset == 1) {
+		if (Tset == 1&&Sset==0) {
 			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
 			} while (Choice != 0 && Choice != 1 && Choice != 2);
 		}
-		else if (Sset == 1) {
+		else if (Sset == 1&&Tset==0) {
 			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n");
 			do {
 				printf(">> ");
@@ -259,11 +268,11 @@ int main(void) {
 			} while (Choice != 0 && Choice != 1 && Choice != 2 && Choice != 3);	
 		}
 		else {
-			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기\n");
+			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
-			} while (Choice != 0 && Choice != 1 && Choice != 2 && Choice != 3);
+			} while (Choice != 0 && Choice != 1);
 		}
 
 			//아무것도 안하기
@@ -365,7 +374,7 @@ int main(void) {
 				printf("현재 친밀도: %d\n", match);
 
 			}
-			else if (Choice == 3) { //레이퍼 포인트로 놀아주기
+			else if (Choice == 3) { //레이저 포인트로 놀아주기
 				if (Feelings == 1) {
 					int feel2 = Feelings;
 					Feelings + 2;
@@ -407,14 +416,9 @@ int main(void) {
 			//CP 생산
 			printf("%s 기분(0~3): %d\n", name, Feelings);
 			printf("집사와의 친밀도(0~4): %d\n", match);
-			CP =+ MAX(0, Feelings - 1) + match;
+			CP += MAX(0, Feelings - 1) + match;
 			printf("%s의 기분과 친밀도에 따라서 CP가 %d 포인트 생산되었습니다.\n", name, MAX(0,Feelings-1)+match);
 			printf("보유 CP: %d 포인트\n", CP);
-
-			int buy;
-			int Mset=0;
-			int Lset=0;
-			int price[5] = { 0, 1, 2, 4, 6 };
 
 
 			// CP상점

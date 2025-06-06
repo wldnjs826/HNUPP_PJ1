@@ -151,27 +151,57 @@ int main(void) {
 			}
 		}
 		else if (Feelings == 1) {
-
 			//일단 아이템이 배치된거 확인
+			if (Sset != 0 && Tset != 0) {
+				int temp;
+				if (abs(cat - T) > abs(cat - S)) {
+					//T가 cat하고 더 가까울때 
+					temp = 1;
+				}
+				else {
+					//S가 더 가까울때
+					temp = 0;
+				}
 
-			
-			//아이템 배치되었을 때 작을때, 클때 같은 위치 확인.
-			if (abs(cat - T) > abs(cat - S)) {
-				printf("%s은(는) 심심해서 캣타워 쪽으로 이동합니다.\n", name);
-				printf("%s은(는) 캣타워를 뛰어다닙다.\n", name);
-				printf("기분이 제법 좋아졌습니다.\n");
-				Feelings + 2;
+				//T가 더 가까움
+				if (temp == 1 && cat != T) {
+					printf("%s은(는) 심심해서 캣타워 쪽으로 이동합니다.\n", name);
+					if (cat > T) {
+						cat--;
+					}
+					else if (cat < T) {
+						cat++;
+					}
+				}
+				else if (temp == 0 && cat != S) {
+					printf("%s은(는) 심심해서 스크래쳐 쪽으로 이동합니다.\n", name);
+					if (cat > S) {
+						cat--;
+					}
+					else if (cat < S) {
+						cat++;
+					}
+				}
 			}
-			else if (abs(cat - S) > abs(cat - T)) {
-				printf("%s은(는) 심심해서 스크래쳐 쪽으로 이동합니다.\n", name);
-				printf("%s은(는) 스크래쳐를 긁고 놀았습니다.\n", name);
-				printf("기분이 조금 좋아졌습니다.\n");
-				Feelings++;
-			}
+			//아이템이 배치되지 않은 경우
 			else {
 				printf("놀거리가 없어서 기분이 매우 나빠집니다.\n");
 				Feelings--;
 			}
+			
+			//아이템 배치되었을 때 작을때, 클때 같은 위치 확인.
+			//if (cat == T) {
+			//	printf("%s은(는) 캣타워를 뛰어다닙다.\n", name);
+			//	printf("기분이 제법 좋아졌습니다.\n");
+			//	Feelings + 2;
+			//}
+			//else if (cat == S) {
+			//	printf("%s은(는) 스크래쳐를 긁고 놀았습니다.\n", name);
+			//	printf("기분이 조금 좋아졌습니다.\n");
+			//	Feelings++;
+			//}
+
+
 		}
 		else if (Feelings == 2) {
 			printf("%s은(는) 기분좋게 식빵을 굽고 있습니다.\n",name);

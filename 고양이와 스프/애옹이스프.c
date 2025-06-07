@@ -524,14 +524,9 @@ int main(void) {
 					Sset = 1;
 					CP -= 4;
 					printf("스크래처를 구매했습니다. 보유 CP %d 포인트\n", CP);
-					while (1) {
-						if (S == T) {
-							int S = random(BWL_POS - 1, HME_POS + 1);
-						}
-						else {
-							break;
-						}
-					}
+					do {
+						S = random(BWL_POS - 1, HME_POS + 1);
+					} while (S == T);
 				}
 				else printf("CP가 부족합니다.\n");
 			}
@@ -540,14 +535,9 @@ int main(void) {
 					Tset = 1;
 					CP -= 6;
 					printf("캣 타워를 구매했습니다. 보유 CP %d 포인트\n", CP);
-					while (1) {
-						if (S == T) {
-							int T = random(BWL_POS - 1, HME_POS + 1);
-						}
-						else {
-							break;
-						}
-					}
+					do {
+						T = random(BWL_POS - 1, HME_POS + 1);
+					} while (S == T);
 				}
 				else printf("CP가 부족합니다.\n");
 			}

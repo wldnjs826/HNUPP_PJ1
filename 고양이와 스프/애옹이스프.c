@@ -46,7 +46,8 @@ int main(void) {
 	int Lset = 0;
 	int price[5] = { 0, 1, 2, 4, 6 };
 	int lost = 0;
-
+	int turn = 1;
+	
 	//인트로
 	while (1) {
 		printf("==================== 현재 상태 ===================\n");
@@ -550,93 +551,24 @@ int main(void) {
 
 
 		//돌발 퀘스트
-		int turn = 1;
-		if (turn % 3 == 0) {
-			printf("\n");
-			Feelings = 0;
-			printf("어라? 항상 가지고 놀던 장난감 쥐가 보이지 않습니다!\n");
-			printf("[돌발 퀘스트] 잃어버린 장난감을 찾아라!\n");
-			sp();
-			int search;
-			do {
-				lost = random(BWL_POS - 1, HME_POS + 1);
-			} while (lost == HME_POS || lost == BWL_POS || (Tset && lost == T) || (Sset && lost == S) || lost == cat);
-			while (1) {
-				printf("\n");
-				for (int i = 0; i < 4; i++) {
-
-					for (int j = 0; j < ROOM_WIDTH; j++) {
-
-						if (j == 0 || j == ROOM_WIDTH - 1 || i == 0 || i == 3) {
-							printf("#");
-						}
-						else if (i == 1 && j == BWL_POS) {
-							printf("B");
-						}
-						else if (i == HME_POS && j == 1) {
-							printf("H");
-						}
-						else if (i == 2 && j == catback && catback != cat) {
-							printf(".");
-						}
-						else if (i == 2 && j == cat) {
-							printf("C");
-						}
-						else if (Tset == 1 && i == 1 && j == T) {
-							printf("T");
-						}
-						else if (Sset == 1 && i == 1 && j == S) {
-							printf("S");
-						}
-						else {
-							printf(" ");
-						}
-						printf("\n");
-					}
-					printf("\n장난감을 찾기 위해 방을 뒤져봅시다.\n");
-					printf("어디를 찾아보시겠습니까? 1 ~ %d (단 스크래쳐 캣타워 위치 제외)\n ", BWL_POS - 1);
-					do {
-						printf(">> ");
-						scanf_s("%d", &search);
-						if (search < 1 || search >= BWL_POS - 1) {
-							printf("방 안에서 찾아주세요!\n");
-						}
-					} while (search < 1 || search >= BWL_POS - 1);
-
-					if (search == lost) {
-						printf("\n찾았다! 가장 아끼는 장난감 쥐 인형이네요!\n");
-						printf("기분이 최상으로 회복되고, 집사와의 친밀도가 크게 상승합니다!\n");
-						Feelings = 3;
-						if (match < 4) {
-							match++;
-						}
-						break;
-					}
-					else {
-						printf("\n여기에는 없는 것 같네요.\n");
-						sp();
-						if (search < lost) {
-							printf("오른쪽에 있는 것 같습니다.\n");
-						}
-						else {
-							printf("왼쪽에 있는 것 같습니다.\n");
-						}
-						sp();
-						printf("가장 아끼는 장난감을 잃어버려 매우 슬퍼하고 있습니다...\n");
-						printf("\n");
-						printf("%s 기분(0~3): %d\n", name, Feelings);
-						printf("집사와의 관계(0~4): %d\n", match);
-					}
-				}
-
-			}
-			turn++;
-
-
-			Sleep(2500);
+		if (turn == 3) {
 			system("cls");
+			int gacha = random(45, 1);
+			int lotto;
+			printf("0~45 숫자 중 하나를 입력하세요\n");
+			printf(">>");
+			scanf_s("%d", &lotto);
+			if (lotto == gacha) {
+				printf("맞았습니다!!!");
+			}
+			else {
+				printf("아쉽게도 틀렸습니다 ㅠㅠㅠ");
+			}
+
+
 		}
-
-
+		Sleep(2500);
+		system("cls");
+		turn++;
 	}
 }

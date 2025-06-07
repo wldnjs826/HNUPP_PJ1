@@ -239,7 +239,7 @@ int main(void) {
 			}
 			else {
 				printf("기분이 제법 좋아졌습니다.\n");
-				Feelings + 2;
+				Feelings += 2;
 			}
 		}
 		else if (cat == S && Sset==1) {
@@ -442,7 +442,7 @@ int main(void) {
 			else if (Choice == 3) { //레이저 포인트로 놀아주기
 				if (Feelings == 1) {
 					int feel2 = Feelings;
-					Feelings + 2;
+					Feelings += 2;
 					printf("레이저 포인트로 %s와 신나게 놀아 주었습니다. %s의 기분이 꽤 좋아졌습니다:%d -> %d.\n", name, name, feel2, Feelings);
 				}
 				else if (Feelings == 2) {

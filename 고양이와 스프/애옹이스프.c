@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define ROOM_WIDTH 15
+#define ROOM_WIDTH 6
 #define HME_POS 1
 #define BWL_POS (ROOM_WIDTH - 2)
 #define MAX(a, b) ((a) >= (b) ? (a) : (b))
@@ -314,21 +314,21 @@ int main(void) {
 		printf("\n");
 
 		//선택
-		if (Tset == 1 && Sset == 0) {
+		if (Mset == 1 && Lset == 0) {
 			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
 			} while (Choice != 0 && Choice != 1 && Choice != 2);
 		}
-		else if (Sset == 1 && Tset == 0) {
-			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n");
+		else if (Lset == 1 && Mset == 0) {
+			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2. 레이저 포인터로 놀아주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
 			} while (Choice != 0 && Choice != 1 && Choice != 2);
 		}
-		else if (Tset == 1 && Sset == 1) {
+		else if (Lset == 1 && Mset == 1) {
 			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2.장난감 쥐로 놀아주기\n3.레이저 포인터로 놀아 주기\n");
 			do {
 				printf(">> ");

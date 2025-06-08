@@ -230,7 +230,7 @@ int main(void) {
 		}
 
 		//아이템 배치되었을 때 작을때, 클때 같은 위치 확인.
-		if (cat == T && Tset == 1) {
+		if (cat == T || Tset == 1) {
 			printf("%s은(는) 캣타워를 뛰어다닙다.\n", name);
 			if (Feelings == 2) {
 				printf("기분이 제법 좋아졌습니다.\n");

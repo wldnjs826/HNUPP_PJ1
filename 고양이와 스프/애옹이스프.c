@@ -322,7 +322,7 @@ int main(void) {
 			} while (Choice != 0 && Choice != 1 && Choice != 2);
 		}
 		else if (Lset == 1 && Mset == 0) {
-			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1.긁어 주기\n2. 레이저 포인터로 놀아주기\n");
+			printf("어떤 상호작용을 하시겠습니까?\n0. 아무것도 하지 않음\n1. 긁어 주기\n2. 레이저 포인터로 놀아주기\n");
 			do {
 				printf(">> ");
 				scanf_s("%d", &Choice);
@@ -410,14 +410,19 @@ int main(void) {
 			}
 			printf("현재 친밀도: %d\n", match);
 		}
-		else if (Choice == 2) { //장난감 쥐로 놀아주기
+		else if (Choice == 2) { //장난감 쥐로 놀아주기, 레이저 포인터로 놀아주기
 			if (Feelings == 3) {
 				printf("기분이 이미 최고조입니다.\n");
 			}
-			else {
+			else if (Mset==1) {
 				int feel2 = Feelings;
 				Feelings++;
 				printf("장난감 쥐로 %s와 놀아 주었습니다. %s의 기분이 좋아졌습니다:%d -> %d.\n", name, name, feel2, Feelings);
+			}
+			else if (Lset == 1) {
+				int feel2 = Feelings;
+				Feelings++;
+				printf("장난감 레이저 포인트로 %s와 놀아 주었습니다. %s의 기분이 좋아졌습니다:%d -> %d.\n", name, name, feel2, Feelings);
 			}
 			Sleep(500);
 			printf("주사위를 굴립니다. 또르륵...\n");
